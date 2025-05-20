@@ -1,0 +1,68 @@
+## Visual Studio ##
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results ##
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.log
+
+## ASP.NET Core ##
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## NuGet ##
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+*.psmdcp
+
+## Resharper ##
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+## Rider ##
+.idea/
+
+## Others ##
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*.swp
+*.swn
+*.DS_Store
+Thumbs.db
+
+# dotenv files
+*.env
+*.env.*
+
+# Logs
+*.log
+
+# Database files
+*.mdf
+*.ldf
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+
+# Publish
+publish/
+wwwroot/
+
+# Entity Framework
+Migrations/
