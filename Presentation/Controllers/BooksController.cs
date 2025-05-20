@@ -1,12 +1,9 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObject;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Entities.Exceptions.NotFound;
 
 namespace Presentation.Controllers
 {
@@ -37,11 +34,6 @@ namespace Presentation.Controllers
             var book = _manager
             .BookService
             .GetOneBookById(id, false);
-
-            if (book is null)
-
-                return NotFound();
-
             return Ok(book);
 
         }
@@ -58,7 +50,7 @@ namespace Presentation.Controllers
 
         }
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
+        public IActionResult UpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate book)
         {
             if (book is null)
                 return BadRequest(); //400
@@ -83,10 +75,10 @@ namespace Presentation.Controllers
                .BookService
                .GetOneBookById(id, true);
 
-            if (entity is null)
-                return NotFound(); //404
             bookPatch.ApplyTo(entity);
-            _manager.BookService.UpdateOneBook(id, entity, true);
+            _manager.BookService.UpdateOneBook(id,
+                new BookDtoForUpdate(entity.Id, entity.Title, entity.Price),
+                true);
 
             return NoContent();
 
