@@ -1,5 +1,6 @@
 ﻿using Entities.DataTransferObject;
 using Entities.Models;
+using Entities.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,19 @@ namespace Services.Contracts
 {
     public interface IBookService
     {
-        IEnumerable<Book> GetAllBooks(bool trackChanges);
-        Book GetOneBookById(int id, bool trackChanges);
+        Task<(IEnumerable<BookDto> books, MetaData metaData)> GetAllBooksAsync(
+            BookParameters bookParameters,
+            bool trackChanges
+            );
+        Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges);
 
-        Book CrateOneBook(Book book);
+        Task<BookDto> CrateOneBookAsync(BookDtoForInsertion book);
 
-        void UpdateOneBook(int id, BookDtoForUpdate bookDto, bool trackChanges);
+        Task UpdateOneBookAsync(int id, BookDtoForUpdate bookDto, bool trackChanges);
 
-        void DeleteOneBook(int id, bool trackChanges);
+        Task DeleteOneBookAsync(int id, bool trackChanges);
+        Task<(BookDtoForUpdate bookDtoForUpdate, Book book)> GetOneBookForPatchAsync(int id, bool trackChanges);
+
+        Task SaveChangesForPatchAsync(BookDtoForUpdate bookDtoForUpdate, Book book);
     }
 }

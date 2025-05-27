@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -26,5 +27,27 @@ options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
             services.AddScoped<IServiceManager, ServiceManager>();
 
 
+        public static void ConfigureActionFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>(); // IoC
+            services.AddSingleton<LogFilterAttribute>();
+
+        }
+
+        public static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination")
+                );
+            });
+        }
     }
+
 }
+
